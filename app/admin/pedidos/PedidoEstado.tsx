@@ -34,8 +34,8 @@ export default function PedidoEstado({
       className="border rounded-lg p-2 text-sm text-gray-500 font-semibold"
     >
       <option>Pendiente</option>
-      <option>Pedido al proveedor</option>
-      <option>Listo para retirar</option>
+      <option>Pedido proveedor</option>
+      <option>Para retirar</option>
       <option>Entregado</option>
     </select>
   );

@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import Image from "next/image";
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -13,8 +12,22 @@ export default function NuevoProductoPage() {
   const [precio, setPrecio] = useState("");
   const [categoria, setCategoria] = useState("");
   const [proveedorId, setProveedorId] = useState("");
+  const [proveedores, setProveedores] = useState<any[]>([]);
   const [imagen, setImagen] = useState<File | null>(null);
   const [guardando, setGuardando] = useState(false);
+
+  useEffect(() => {
+  async function cargarProveedores() {
+    const { data } = await supabase
+      .from("proveedores")
+      .select("*")
+      .order("nombre");
+
+    setProveedores(data || []);
+  }
+
+  cargarProveedores();
+}, []);
 
   async function guardarProducto() {
     try {
@@ -85,69 +98,80 @@ if (tallesError) {
   return (
     <div className="max-w-3xl mx-auto p-6">
 
-      <h1 className="text-3xl font-bold mb-6">
-        Nuevo Producto
-      </h1>
+  <h1 className="text-3xl font-bold mb-6">
+    Nuevo Producto
+  </h1>
 
-      <div className="bg-white rounded-xl shadow p-6 space-y-4">
+  <div className="bg-white rounded-xl shadow p-6 space-y-4">
 
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          className="w-full border font-semibold text-gray-400 rounded-lg p-3"
-        />
+    <input
+      type="text"
+      placeholder="Nombre"
+      value={nombre}
+      onChange={(e) => setNombre(e.target.value)}
+      className="w-full border font-semibold text-gray-400 rounded-lg p-3"
+    />
 
-        <textarea
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          className="w-full border font-semibold text-gray-400 rounded-lg p-3"
-        />
+    <textarea
+      placeholder="Descripción"
+      value={descripcion}
+      onChange={(e) => setDescripcion(e.target.value)}
+      className="w-full border font-semibold text-gray-400 rounded-lg p-3"
+    />
 
-        <input
-          type="number"
-          placeholder="Precio"
-          value={precio}
-          onChange={(e) => setPrecio(e.target.value)}
-          className="w-full border font-semibold text-gray-400 rounded-lg p-3"
-        />
+    <input
+      type="number"
+      placeholder="Precio"
+      value={precio}
+      onChange={(e) => setPrecio(e.target.value)}
+      className="w-full border font-semibold text-gray-400 rounded-lg p-3"
+    />
 
-        <input
-          type="text"
-          placeholder="Categoría"
-          value={categoria}
-          onChange={(e) => setCategoria(e.target.value)}
-          className="w-full border  font-semibold text-gray-400 rounded-lg p-3"
-        />
+    <input
+      type="text"
+      placeholder="Categoría"
+      value={categoria}
+      onChange={(e) => setCategoria(e.target.value)}
+      className="w-full border font-semibold text-gray-400 rounded-lg p-3"
+    />
 
-        <input
-          type="number"
-          placeholder="Proveedor ID"
-          value={proveedorId}
-          onChange={(e) => setProveedorId(e.target.value)}
-          className="w-full border font-semibold text-gray-400 rounded-lg p-3"
-        />
+    <select
+      value={proveedorId}
+      onChange={(e) => setProveedorId(e.target.value)}
+      className="w-full border font-semibold text-gray-700 rounded-lg p-3"
+    >
+      <option value="">
+        Seleccionar proveedor
+      </option>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) =>
-            setImagen(e.target.files?.[0] || null)
-          }
-          className="w-full border font-semibold text-gray-400 rounded-lg p-3"
-        />
-
-        <button
-          onClick={guardarProducto}
-          disabled={guardando}
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg"
+      {proveedores.map((proveedor) => (
+        <option
+          key={proveedor.id}
+          value={String(proveedor.id)}
         >
-          {guardando ? "Guardando..." : "Guardar Producto"}
-        </button>
+          {proveedor.nombre}
+        </option>
+      ))}
+    </select>
 
-      </div>
-    </div>
-  );
-}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) =>
+        setImagen(e.target.files?.[0] || null)
+      }
+      className="w-full border font-semibold text-gray-400 rounded-lg p-3"
+    />
+
+    <button
+      onClick={guardarProducto}
+      disabled={guardando}
+      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg"
+    >
+      {guardando ? "Guardando..." : "Guardar Producto"}
+    </button>
+
+  </div>
+
+</div>
+  );}

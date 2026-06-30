@@ -1,11 +1,10 @@
 import { supabase } from "@/lib/supabase";
 import PedidoEstado from "./PedidoEstado";
-
-
+import WhatsappClienteBtn from "./WhatsappClienteBtn";
 
 export default async function PedidosPage() {
 
-  const { data: pedidos } = await supabase
+const { data: pedidos } = await supabase
     .from("pedidos")
     .select("*")
     .order("created_at", { ascending: false });
@@ -31,13 +30,13 @@ const entregados =
   ).length || 0;
 
   return (
-    <main className="max-w-7xl mx-auto p-8">
+    <main className="max-w-7xl mx-auto p-3">
 
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">
+      <h1 className="text-4xl font-bold text-gray-800 mb-3">
         📦 Pedidos Recibidos
       </h1>
 
-      <div className="grid md:grid-cols-4 gap-4 mb-8">
+      <div className="grid md:grid-cols-4 gap-4 mb-5">
 
   <div className="bg-white p-5 rounded-xl shadow">
     <h3 className="text-orange-500 font-bold">
@@ -77,106 +76,111 @@ const entregados =
 
 </div>
 
-      <div className="grid gap-5">
+      <div className="bg-white rounded-xl shadow overflow-hidden">
 
-        
+  <table className="w-full">
 
-        {pedidos?.map(async (pedido) => {
+    <thead className="bg-gray-100">
+  <tr>
+    <th className="text-left p-3 text-gray-700">Pedido</th>
+    <th className="text-left p-4 text-gray-700">Cliente</th>
+    <th className="text-left p-4 text-gray-700">Teléfono</th>
+    <th className="text-left p-4 text-gray-700">Producto / Talle</th>
+    <th className="text-center p-4 text-gray-700">Cant.</th>
+    <th className="text-right p-4 text-gray-700">Total</th>
+    <th className="text-center p-4 text-gray-700">📲 Cliente</th>
+    <th className="text-center p-4 text-gray-700">Estado</th>
+    <th className="text-center p-4 text-gray-700">Fecha</th>
+  </tr>
+</thead>
 
-            
+    <tbody>
 
-          const { data: cliente } = await supabase
-            .from("clientes")
-            .select("*")
-            .eq("id", pedido.cliente_id)
-            .single();
+      {pedidos?.map(async (pedido) => {
 
-          const { data: items } = await supabase
-            .from("pedido_items")
-            .select(`
-              *,
-              productos (
-                nombre
-              )
-            `)
-            .eq("pedido_id", pedido.id);
+        const { data: cliente } = await supabase
+          .from("clientes")
+          .select("*")
+          .eq("id", pedido.cliente_id)
+          .single();
 
-          return (
-            <div
-              key={pedido.id}
-              className="bg-white rounded-xl shadow-lg p-6"
-            >
+        const { data: items } = await supabase
+          .from("pedido_items")
+          .select(`
+            *,
+            productos (
+              nombre
+            )
+          `)
+          .eq("pedido_id", pedido.id);
 
-              <div className="flex justify-between mb-4">
+        const item = items?.[0];
 
-                <h2 className="text-2xl font-bold text-gray-800">
-                  Pedido #{pedido.id}
-                </h2>
+        return (
+          <tr
+            key={pedido.id}
+            className="border-t hover:bg-gray-50"
+          >
+            <td className="p-4 font-bold text-gray-800">
+              #{pedido.id}
+            </td>
 
-                <PedidoEstado
-                pedidoId={pedido.id}
-                estadoInicial={pedido.estado}
-                />
+            <td className="p-4 text-gray-700">
+              {cliente?.nombre}
+            </td>
 
+            <td className="p-4 text-gray-700">
+              {cliente?.telefono}
+            </td>
+
+            <td className="p-4 text-gray-700">
+              <div className="font-semibold">
+                {item?.productos?.nombre}
               </div>
 
-              <div className="mb-4">
-
-                <p className="text-gray-700">
-                  <strong>Cliente:</strong> {cliente?.nombre}
-                </p>
-
-                <p className="text-gray-700">
-                  <strong>WhatsApp:</strong> {cliente?.telefono}
-                </p>
-
+              <div className="text-sm text-gray-500">
+                Talle: {item?.talle}
               </div>
+            </td>
 
-              <div className="border-t pt-4">
+            <td className="p-4 text-center text-gray-700">
+              {item?.cantidad}
+            </td>
 
-                <h3 className="font-bold text-gray-800 mb-3">
-                  Productos
-                </h3>
+            <td className="p-4 text-right font-bold text-orange-500">
+  ${item?.precio}
+</td>
 
-                {items?.map((item) => (
-                  <div
-                    key={item.id}
-                    className="bg-gray-100 rounded-lg p-3 mb-2"
-                  >
+<td className="p-4 text-center">
+  <WhatsappClienteBtn
+    telefono={cliente?.telefono || ""}
+    nombre={cliente?.nombre || "Cliente"}
+    estado={pedido.estado}
+  />
+</td>
 
-                    <p className="font-semibold text-gray-800">
-                      {item.productos?.nombre}
-                    </p>
+<td className="p-4 text-center">
+  <PedidoEstado
+    pedidoId={pedido.id}
+    estadoInicial={pedido.estado}
+  />
+</td>
 
-                    <p className="text-gray-600">
-                      Talle: {item.talle}
-                    </p>
+<td className="p-4 text-center text-gray-500 text-sm">
+  {new Date(
+    pedido.created_at
+  ).toLocaleDateString("es-AR")}
+</td>
 
-                    <p className="text-gray-600">
-                      Cantidad: {item.cantidad}
-                    </p>
+          </tr>
+        );
+      })}
 
-                    <p className="text-orange-500 font-bold">
-                      $ {item.precio}
-                    </p>
+    </tbody>
 
-                  </div>
-                ))}
+  </table>
 
-              </div>
-
-              <p className="text-sm text-gray-500 mt-4">
-                {new Date(
-                  pedido.created_at
-                ).toLocaleString("es-AR")}
-              </p>
-
-            </div>
-          );
-        })}
-
-      </div>
-
+</div>
     </main>
   );
 }

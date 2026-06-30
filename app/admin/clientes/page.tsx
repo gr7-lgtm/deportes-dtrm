@@ -8,6 +8,8 @@ export default async function ClientesPage() {
     .select("*")
     .order("created_at", { ascending: false });
 
+  const totalClientes = clientes?.length || 0;  
+
   return (
     <main className="max-w-7xl mx-auto p-8">
 
@@ -15,59 +17,101 @@ export default async function ClientesPage() {
         👥 Clientes
       </h1>
 
-      <div className="grid gap-4">
+      <div className="bg-white rounded-xl shadow p-5 mb-6">
+  <p className="text-gray-500">
+    Total de clientes
+  </p>
 
-        {clientes?.map(async (cliente) => {
+  <p className="text-4xl font-black text-orange-500">
+    {totalClientes}
+  </p>
+</div>
 
-          const { count } = await supabase
-            .from("pedidos")
-            .select("*", {
-              count: "exact",
-              head: true,
-            })
-            .eq("cliente_id", cliente.id);
+      <div className="bg-white rounded-xl shadow overflow-hidden">
 
-          return (
-            <Link
-  href={`/admin/clientes/${cliente.id}`}
-  key={cliente.id}
-  className="block"
->
+  <table className="w-full">
 
-              <div className="flex justify-between items-center">
+    <thead className="bg-gray-100">
+      <tr>
+        <th className="text-left p-4 text-gray-700">
+          Cliente
+        </th>
 
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-800">
-                    {cliente.nombre}
-                  </h2>
+        <th className="text-left p-4 text-gray-700">
+          Teléfono
+        </th>
 
-                  <p className="text-gray-600">
-                    📱 {cliente.telefono}
-                  </p>
-                </div>
+        <th className="text-center p-4 text-gray-700">
+          Pedidos
+        </th>
 
-                <div className="text-right">
+        <th className="text-center p-4 text-gray-700">
+          Alta
+        </th>
 
-                  <p className="text-orange-500 font-bold">
-                    {count || 0} pedidos
-                  </p>
+        <th className="text-center p-4 text-gray-700">
+          Acción
+        </th>
+      </tr>
+    </thead>
 
-                  <p className="text-sm text-gray-500">
-                    {new Date(
-                      cliente.created_at
-                    ).toLocaleDateString("es-AR")}
-                  </p>
+    <tbody>
 
-                </div>
+      {clientes?.map(async (cliente) => {
 
-              </div>
+        const { count } = await supabase
+          .from("pedidos")
+          .select("*", {
+            count: "exact",
+            head: true,
+          })
+          .eq("cliente_id", cliente.id);
 
-            </Link>
-          );
-        })}
+        return (
+          <tr
+            key={cliente.id}
+            className="border-t hover:bg-gray-50"
+          >
 
-      </div>
+            <td className="p-4 font-bold text-gray-800">
+              {cliente.nombre}
+            </td>
 
-    </main>
+            <td className="p-4 text-gray-700">
+              {cliente.telefono}
+            </td>
+
+            <td className="p-4 text-center font-bold text-orange-500">
+              {count || 0}
+            </td>
+
+            <td className="p-4 text-center text-gray-500">
+              {new Date(
+                cliente.created_at
+              ).toLocaleDateString("es-AR")}
+            </td>
+
+            <td className="p-4 text-center">
+
+              <Link
+                href={`/admin/clientes/${cliente.id}`}
+                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
+              >
+                Ver Ficha
+              </Link>
+
+            </td>
+
+          </tr>
+        );
+      })}
+
+    </tbody>
+
+  </table>
+
+</div>
+       
+   </main>
   );
 }

@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import WhatsappClienteBtn from "../../pedidos/WhatsappClienteBtn";
 
 export default async function ClienteDetallePage({
   params,
@@ -29,6 +30,28 @@ export default async function ClienteDetallePage({
       ascending: false,
     });
 
+  const cantidadPedidos = pedidos?.length || 0;
+
+let totalGastado = 0;
+
+for (const pedido of pedidos || []) {
+
+  const { data: items } = await supabase
+    .from("pedido_items")
+    .select("cantidad, precio")
+    .eq("pedido_id", pedido.id);
+
+  const subtotal =
+    items?.reduce(
+      (acc, item) =>
+        acc +
+        item.cantidad * Number(item.precio),
+      0
+    ) || 0;
+
+  totalGastado += subtotal;
+}
+
   return (
     <main className="max-w-6xl mx-auto p-8">
 
@@ -42,12 +65,44 @@ export default async function ClienteDetallePage({
           📱 {cliente.telefono}
         </p>
 
+        <div className="mt-4">
+  <WhatsappClienteBtn
+    telefono={cliente.telefono || ""}
+    nombre={cliente.nombre}
+    estado="Consulta"
+  />
+</div>
+
         <p className="text-gray-500 mt-2">
           Cliente desde{" "}
           {new Date(
             cliente.created_at
           ).toLocaleDateString("es-AR")}
         </p>
+
+        <div className="grid md:grid-cols-2 gap-4 mt-6">
+
+  <div className="bg-orange-50 rounded-xl p-4">
+    <p className="text-gray-500">
+      Pedidos realizados
+    </p>
+
+    <p className="text-3xl font-black text-orange-500">
+      {cantidadPedidos}
+    </p>
+  </div>
+
+  <div className="bg-green-50 rounded-xl p-4">
+    <p className="text-gray-500">
+      Total comprado
+    </p>
+
+    <p className="text-3xl font-black text-green-600">
+      ${totalGastado.toLocaleString("es-AR")}
+    </p>
+  </div>
+
+</div>
 
       </div>
 

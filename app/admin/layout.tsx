@@ -8,7 +8,7 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-gray-100 flex">
 
-      <aside className="w-64 bg-black text-white p-6">
+      <aside className="w-64 bg-black text-white  p-6">
 
         <h1 className="text-2xl font-black text-orange-500 mb-8">
           DTRM
@@ -22,6 +22,13 @@ export default function AdminLayout({
           >
             🏠 Dashboard
           </Link>
+
+          <Link
+            href="/admin/produccion"
+            className="bg-gray-900 hover:bg-orange-500 px-4 py-3 rounded-lg transition"
+            >
+            🏭 Producción
+            </Link>
 
           <Link
             href="/admin/pedidos"
@@ -49,6 +56,13 @@ export default function AdminLayout({
             className="bg-gray-900 hover:bg-orange-500 px-4 py-3 rounded-lg transition"
           >
             🚚 Pedido Mayorista
+          </Link>
+
+          <Link
+            href="/admin/proveedores"
+            className="bg-gray-900 hover:bg-orange-500 px-4 py-3 rounded-lg transition"
+          >
+            🚚 Proveedores
           </Link>
 
         </nav>
