@@ -10,10 +10,11 @@ const outfit = Outfit({
 
 
 export default async function Home() {
-  const { data: productos } = await supabase
-    .from("productos")
-    .select("*")
-    .order("id");
+const { data: productos } = await supabase
+  .from("productos")
+  .select("*")
+  .eq("activo", true)
+  .order("id", { ascending: false });
 
   return (
     <main className="min-h-screen bg-gray-300 p-8">

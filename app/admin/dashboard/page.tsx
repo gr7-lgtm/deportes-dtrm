@@ -81,13 +81,23 @@ items?.forEach((item: any) => {
 const topTalles = Object.entries(rankingTalles)
   .sort((a, b) => b[1] - a[1]);
 
+ const { count: productosActivos } = await supabase
+  .from("productos")
+  .select("*", { count: "exact", head: true })
+  .eq("activo", true);
+
+const { count: productosInactivos } = await supabase
+  .from("productos")
+  .select("*", { count: "exact", head: true })
+  .eq("activo", false); 
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">
         Dashboard DTRM Deportes
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6">
 
         <div className="bg-white rounded-xl text-gray-700 shadow p-6">
           <h2 className="text-gray-500 text-md">Pedidos</h2>
@@ -110,8 +120,26 @@ const topTalles = Object.entries(rankingTalles)
             ${ventasTotales.toLocaleString("es-AR")}
           </p>
 
-          
+            
         </div>
+
+        <div className="bg-white rounded-xl text-gray-700 shadow p-6">
+          <h2 className="text-gray-500 text-md">
+            Productos Activos
+          </h2>
+          <p className="text-3xl font-bold">
+            {productosActivos || 0}
+          </p>
+        </div>
+
+        <div className="bg-white rounded-xl text-gray-700 shadow p-6">
+          <h2 className="text-gray-500 text-md">
+            Productos Inactivos
+          </h2>
+          <p className="text-3xl font-bold">
+            {productosInactivos || 0}
+          </p>
+        </div>  
         
       </div>
       <div className="mt-8">
