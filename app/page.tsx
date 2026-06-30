@@ -1,65 +1,107 @@
+import { supabase } from "@/lib/supabase";
+import { Outfit } from "next/font/google";
+import Link from "next/link";
 import Image from "next/image";
 
-export default function Home() {
+const outfit = Outfit({
+  
+  subsets: ["latin"],
+});
+
+
+export default async function Home() {
+  const { data: productos } = await supabase
+    .from("productos")
+    .select("*")
+    .order("id");
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <main className="min-h-screen bg-gray-300 p-8">
+      <div className="max-w-6xl mx-auto">
+
+        <header className="bg-black text-white py-4 px-8 rounded-2xl mb-10">
+  <div className="flex items-center justify-between">
+
+    <div className="flex items-center gap-11">
+      <img
+        src="/logo-dtrm.png"
+        alt="DTRM"
+        className="h-18"
+      />
+
+      <div>
+       <section className="text-center mb-1">
+  <h2 className="text-5xl font-black text-gray-700 uppercase">
+  INDUMENTARIA DEPORTIVA
+</h2>
+
+  <p className={`${outfit.className} text-xl text-orange-500 font-bold tracking-wide`}>
+    Calidad, estilo y rendimiento
+  </p>
+</section>
+      </div>
     </div>
+    
+
+  </div>
+</header>
+
+
+        <div className="grid md:grid-cols-4 gap-6">
+
+          {productos?.map((producto) => (
+            <div
+              key={producto.id}
+              className="bg-white rounded-xl shadow-md overflow-hidden"
+            >
+
+              <div className="h-60 w-full bg-gray-100 overflow-hidden
+               flex items-center justify-center">
+
+            {producto.imagen ? (
+                <img
+                src={producto.imagen}
+                alt={producto.nombre}
+                className="w-full h-full object-cover"
+                />
+            ) : (
+                <span className="text-gray-400 font-bold">
+                Sin imagen
+                </span>
+            )}
+
+            </div>
+
+              <div className="p-4">
+
+                <h2 className="text-xl text-gray-700 font-bold">
+                  {producto.nombre}
+                </h2>
+
+                <p className="text-gray-500 mt-2">
+                  {producto.descripcion}
+                </p>
+
+                <p className="text-2xl font-bold text-orange-500 mt-4">
+                  $ {producto.precio}
+                </p>
+
+                <Link
+              href={`/producto/${producto.id}`}
+              className="block text-center w-full mt-4 bg-orange-500
+                hover:bg-orange-600 text-white font-bold py-3
+                rounded-lg transition"
+            >
+              PEDIR
+            </Link>
+
+              </div>
+            </div>
+          ))}
+
+        </div>
+
+      </div>
+    </main>
   );
 }
