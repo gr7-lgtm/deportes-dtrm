@@ -8,7 +8,6 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
-
 export default async function Home() {
 const { data: productos } = await supabase
   .from("productos")
