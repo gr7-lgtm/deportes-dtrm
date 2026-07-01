@@ -2,6 +2,8 @@ import { supabase } from "@/lib/supabase";
 import { Outfit } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
+import BuscadorProductos from "./BuscadorProductos";
+import WhatsappFlotante from "./WhatsappFlotante";
 
 const outfit = Outfit({
   
@@ -16,13 +18,15 @@ const { data: productos } = await supabase
   .order("id", { ascending: false });
 
   return (
-    <main className="min-h-screen bg-gray-300 p-8">
+    
+    <main className="min-h-screen bg-gray-300 p-10">
       <div className="max-w-6xl mx-auto">
 
-        <header className="bg-black text-white py-4 px-8 rounded-2xl mb-10">
+        <header className="bg-black text-white py-7 px-8 rounded-2xl mb-3">
+          
   <div className="flex items-center justify-between">
 
-    <div className="flex items-center gap-11">
+        <div className="flex items-center gap-11">
       <img
         src="/logo-dtrm.png"
         alt="DTRM"
@@ -30,6 +34,8 @@ const { data: productos } = await supabase
       />
 
       <div>
+
+        
        <section className="text-center mb-1">
   <h2 className="text-5xl font-black text-gray-700 uppercase">
   INDUMENTARIA DEPORTIVA
@@ -41,67 +47,124 @@ const { data: productos } = await supabase
 </section>
       </div>
     </div>
-    
+
+    </div>
+
+</header>
+<div className="bg-white rounded-2xl shadow-lg p-3 mb-8">
+
+  <div className="grid md:grid-cols-4 gap-4 text-center">
+
+    <div>
+      
+      <h3 className="font-bold text-gray-700">
+        Trabajamos por pedido
+      </h3>
+      <p className="text-sm text-gray-500">
+        Elegí tu producto y lo encargamos para vos.
+      </p>
+    </div>
+
+    <div>
+      
+      <h3 className="font-bold text-gray-700">
+        Entrega rápida
+      </h3>
+      <p className="text-sm text-gray-500">
+        
+      </p>
+    </div>
+
+    <div>
+      
+      <h3 className="font-bold text-gray-700">
+        Medios de pago
+      </h3>
+      <p className="text-sm text-gray-500">
+        Transferencia, efectivo y MP.
+      </p>
+    </div>
+
+    <div>
+      
+      <h3 className="font-bold text-gray-700">
+        Atención personalizada
+      </h3>
+      <p className="text-sm text-gray-500">
+        Consultanos directamente por WhatsApp.
+      </p>
+    </div>
 
   </div>
+
+</div>
+
+<header>
+<h2 className="text-2xl font-bold text-gray-700 mb-4">
+  Productos Destacados
+</h2>
+
+<div className="grid md:grid-cols-4 gap-4 mb-10">
+
+  {productos?.slice(0, 4).map((producto) => (
+
+    <Link
+      key={producto.id}
+      href={`/producto/${producto.id}`}
+      className="
+        bg-white
+        rounded-xl
+        shadow
+        overflow-hidden
+        hover:scale-110
+        transition
+      "
+    >
+
+      <div className="h-56 bg-gray-100">
+
+        {producto.imagen ? (
+          <img
+            src={producto.imagen}
+            alt={producto.nombre}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-400">
+            Sin imagen
+          </div>
+        )}
+
+      </div>
+
+      <div className="p-3">
+
+        <p className="font-bold text-gray-700">
+          {producto.nombre}
+        </p>
+
+        <p className="text-orange-500 font-bold mt-2">
+          $ {producto.precio}
+        </p>
+
+      </div>
+
+    </Link>
+
+  ))}
+
+</div>
 </header>
 
 
-        <div className="grid md:grid-cols-4 gap-6">
 
-          {productos?.map((producto) => (
-            <div
-              key={producto.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden"
-            >
-
-              <div className="h-60 w-full bg-gray-100 overflow-hidden
-               flex items-center justify-center">
-
-            {producto.imagen ? (
-                <img
-                src={producto.imagen}
-                alt={producto.nombre}
-                className="w-full h-full object-cover"
-                />
-            ) : (
-                <span className="text-gray-400 font-bold">
-                Sin imagen
-                </span>
-            )}
-
-            </div>
-
-              <div className="p-4">
-
-                <h2 className="text-xl text-gray-700 font-bold">
-                  {producto.nombre}
-                </h2>
-
-                <p className="text-gray-500 mt-2">
-                  {producto.descripcion}
-                </p>
-
-                <p className="text-2xl font-bold text-orange-500 mt-4">
-                  $ {producto.precio}
-                </p>
-
-                <Link
-              href={`/producto/${producto.id}`}
-              className="block text-center w-full mt-4 bg-orange-500
-                hover:bg-orange-600 text-white font-bold py-3
-                rounded-lg transition"
-            >
-              PEDIR
-            </Link>
-
-              </div>
-            </div>
-          ))}
-
-        </div>
+<BuscadorProductos
+  productos={productos || []}
+/>
 
       </div>
+
+      <WhatsappFlotante />
     </main>
   );
 }

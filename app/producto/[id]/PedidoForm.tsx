@@ -29,6 +29,7 @@ async function realizarPedido() {
       setMensaje("Complete todos los campos");
       return;
     }
+    
 
     const { data: cliente, error: errorCliente } = await supabase
       .from("clientes")
@@ -146,7 +147,7 @@ async function realizarPedido() {
           hover:bg-orange-600
           text-white
           font-bold
-          py-4
+          py-1
           rounded-lg
           transition
         "
