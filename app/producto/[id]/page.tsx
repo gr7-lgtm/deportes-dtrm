@@ -47,7 +47,7 @@ const { data: talles } = await supabase
 
       <div className="grid md:grid-cols-2">
 
-        <div className="bg-gray-100 h-[538px] flex items-center justify-center overflow-hidden">
+        <div className="bg-gray-100 h-[538px] flex items-center justify-center overflow-hidden rounded-l-2xl">
 
           {producto.imagen ? (
             <img
@@ -177,7 +177,7 @@ const { data: talles } = await supabase
                   <img
                     src={item.imagen}
                     alt={item.nombre}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full rounded-2xl object-cover"
                   />
                 ) : (
                   <span className="text-gray-400">

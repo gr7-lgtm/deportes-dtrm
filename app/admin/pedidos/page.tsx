@@ -1,6 +1,10 @@
 import { supabase } from "@/lib/supabase";
 import PedidoEstado from "./PedidoEstado";
 import WhatsappClienteBtn from "./WhatsappClienteBtn";
+import PagoEstado from "./PagoEstado";
+import MontoPagado from "./MontoPagado";
+
+
 
 export default async function PedidosPage() {
 
@@ -90,6 +94,8 @@ const entregados =
     <th className="text-right p-4 text-gray-700">Total</th>
     <th className="text-center p-4 text-gray-700">📲 Cliente</th>
     <th className="text-center p-4 text-gray-700">Estado</th>
+    <th className="text-center p-4 text-gray-700">Pago</th>
+    <th className="text-right p-4 text-gray-700">Pago $</th>
     <th className="text-center p-4 text-gray-700">Fecha</th>
   </tr>
 </thead>
@@ -147,7 +153,7 @@ const entregados =
               {item?.cantidad}
             </td>
 
-            <td className="p-4 text-right font-bold text-orange-500">
+            <td className="p-5 text-right font-bold text-orange-500">
   ${item?.precio}
 </td>
 
@@ -166,12 +172,29 @@ const entregados =
   />
 </td>
 
+<td className="p-4 text-center">
+  <PagoEstado
+  pedidoId={pedido.id}
+  estadoInicial={
+    pedido.estado_pago || "Pendiente"
+  }
+/>
+</td>
+
+<td className="p-4 text-center">
+  <MontoPagado
+    pedidoId={pedido.id}
+    montoInicial={
+      pedido.monto_pagado || 0
+    }
+  />
+</td>
+
 <td className="p-4 text-center text-gray-500 text-sm">
   {new Date(
     pedido.created_at
   ).toLocaleDateString("es-AR")}
 </td>
-
           </tr>
         );
       })}
@@ -180,7 +203,10 @@ const entregados =
 
   </table>
 
+  
+
 </div>
+
     </main>
   );
 }

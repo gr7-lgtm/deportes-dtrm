@@ -65,6 +65,20 @@ export default function AdminLayout({
             🚚 Proveedores
           </Link>
 
+          <Link
+            href="/admin/finanzas"
+            className="bg-gray-900 hover:bg-orange-500 px-4 py-3 rounded-lg transition"
+          >
+            💰 Finanzas
+          </Link>
+
+          <Link
+            href="/admin/finanzas/mensual"
+            className="bg-gray-900 hover:bg-orange-500 px-4 py-3 rounded-lg transition"
+          >
+            📈 Mensual
+          </Link>
+
         </nav>
 
       </aside>
