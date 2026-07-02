@@ -19,19 +19,34 @@ const { data: productos } = await supabase
 
   return (
     
-    <main className="min-h-screen bg-gray-300 p-10">
+    <main className="min-h-screen bg-gray-300 p-4 md:p-10">
       <div className="max-w-6xl mx-auto">
 
         <header className="bg-black text-white py-7 px-8 rounded-2xl mb-3">
           
-  <div className="flex items-center justify-between">
+  <div className="
+  flex
+  flex-col
+  lg:flex-row
+  items-center
+  justify-between
+  gap-6
+">
 
-        <div className="flex items-center gap-11">
+        <div className="
+  flex
+  flex-col
+  sm:flex-row
+  items-center
+  gap-4
+  text-center
+  sm:text-left
+">
       <img
-        src="/logo-dtrm.png"
-        alt="DTRM"
-        className="h-18"
-      />
+  src="/logo-dtrm.png"
+  alt="DTRM"
+  className="h-16 md:h-20"
+/>
 
       <div>
 
