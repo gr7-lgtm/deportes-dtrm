@@ -24,10 +24,7 @@ const { data: productos } = await supabase
 
         <header className="bg-black text-white py-7 px-8 rounded-2xl mb-3">
 
-          <h1 className="text-red-500">
-  PRUEBA RESPONSIVE
-</h1>
-          
+                  
   <div className="
   flex
   flex-col
@@ -56,12 +53,18 @@ const { data: productos } = await supabase
 
         
        <section className="text-center mb-1">
-  <h2 className="text-5xl font-black text-gray-700 uppercase">
+  <h2
+  className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-700 uppercase"
+>
   INDUMENTARIA DEPORTIVA
 </h2>
 
-  <p className={`${outfit.className} text-xl text-orange-500 font-bold tracking-wide`}>
-    Calidad, estilo y rendimiento
+  <p
+  className={` ${outfit.className} text-base sm:text-lg lg:text-xl
+   text-orange-500 font-bold tracking-wide`
+   }
+>
+  Calidad, estilo y rendimiento
   </p>
 </section>
       </div>
