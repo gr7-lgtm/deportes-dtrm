@@ -53,7 +53,7 @@ const { data: productos } = await supabase
 </header>
 <div className="bg-white rounded-2xl shadow-lg p-3 mb-8">
 
-  <div className="grid md:grid-cols-4 gap-4 text-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
 
     <div>
       
@@ -104,7 +104,7 @@ const { data: productos } = await supabase
   Productos Destacados
 </h2>
 
-<div className="grid md:grid-cols-4 gap-4 mb-10">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
 
   {productos?.slice(0, 4).map((producto) => (
 

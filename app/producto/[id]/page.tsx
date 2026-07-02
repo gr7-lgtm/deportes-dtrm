@@ -35,7 +35,7 @@ const { data: talles } = await supabase
 
   
   return (
-  <main className="max-w-6xl mx-auto p-8">
+  <main className="max-w-6xl mx-auto px-4 py-4 md:p-8">
 
     <Link
       href="/"
@@ -46,9 +46,20 @@ const { data: talles } = await supabase
 
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-      <div className="grid md:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
 
-        <div className="bg-gray-100 h-[538px] flex items-center justify-center overflow-hidden rounded-l-2xl">
+        <div className="
+  bg-gray-100
+  h-[300px]
+  md:h-[450px]
+  lg:h-[538px]
+  flex
+  items-center
+  justify-center
+  overflow-hidden
+  rounded-t-2xl
+  lg:rounded-l-2xl
+">
 
           {producto.imagen ? (
             <img
@@ -70,7 +81,7 @@ const { data: talles } = await supabase
             ⭐ Destacado
           </div>
 
-          <h1 className="text-4xl text-gray-700 font-bold mb-2">
+          <h1 className="text-2xl lg:text-4xl text-gray-700 font-bold mb-2">
             {producto.nombre}
           </h1>
 
@@ -78,7 +89,7 @@ const { data: talles } = await supabase
             {producto.descripcion}
           </p>
 
-          <p className="text-3xl font-black text-orange-500 mb-6">
+          <p className="text-xl lg:text-3xl font-black text-orange-500 mb-6">
             $ {producto.precio}
           </p>
 
@@ -88,7 +99,7 @@ const { data: talles } = await supabase
             precio={producto.precio}
           />
 
-          <div className="grid grid-cols-2 gap-3 mt-4">
+          <div className="grid grid-cols-2 gap-2 md:gap-3 mt-4">
 
   <a
     href={`https://wa.me/5492317401400?text=${encodeURIComponent(
