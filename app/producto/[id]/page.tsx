@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 import PedidoForm from "./PedidoForm";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
+import BotonMercadoPago from "@/components/BotonMercadoPago";
 
 export default async function ProductoPage({
   params,
@@ -87,33 +88,34 @@ const { data: talles } = await supabase
             precio={producto.precio}
           />
 
-          <a
-            href={`https://wa.me/5492317401400?text=${encodeURIComponent(
-              `Hola, me interesa ${producto.nombre}. ¿Tenés disponibilidad?`
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              w-full
-              flex
-              items-center
-              justify-center
-              gap-3
-              bg-green-500
-              hover:bg-green-600
-              text-white
-              font-bold
-              py-3
-              rounded-lg
-              mt-3
-              transition
-            "
-          >
-            <MessageCircle size={24} />
-            Comprar por WhatsApp
-          </a>
+          <div className="grid grid-cols-2 gap-3 mt-4">
 
-          <div className="grid grid-cols-3 gap-3 mt-4">
+  <a
+    href={`https://wa.me/5492317401400?text=${encodeURIComponent(
+      `Hola, me interesa ${producto.nombre}.`
+    )}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-green-500 hover:bg-green-600 rounded-lg h-11 flex
+      items-center justify-center transition"
+  >
+    <img
+      src="/logo-wsp.png"
+      alt="WhatsApp"
+      className="h-10"
+    />
+    <p>WhatsApp</p>
+  </a>
+
+  <BotonMercadoPago
+    pedidoId={producto.id}
+    titulo={producto.nombre}
+    precio={Number(producto.precio)}
+  />
+
+</div>
+         
+          <div className="grid grid-cols-3 gap-3 mt-1">
 
             <div className="bg-gray-100 rounded-xl p-3 text-center">
               <div className="text-2xl">🚚</div>

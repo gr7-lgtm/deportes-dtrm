@@ -36,11 +36,11 @@ const entregados =
   return (
     <main className="max-w-7xl mx-auto p-3">
 
-      <h1 className="text-4xl font-bold text-gray-800 mb-3">
+      <h1 className="text-4xl font-bold text-gray-800 mb-5">
         📦 Pedidos Recibidos
       </h1>
 
-      <div className="grid md:grid-cols-4 gap-4 mb-5">
+      <div className="grid md:grid-cols-4 gap-4 mb-8">
 
   <div className="bg-white p-5 rounded-xl shadow">
     <h3 className="text-orange-500 font-bold">
@@ -178,6 +178,7 @@ const entregados =
   estadoInicial={
     pedido.estado_pago || "Pendiente"
   }
+  total={Number(pedido.total || 0)}
 />
 </td>
 

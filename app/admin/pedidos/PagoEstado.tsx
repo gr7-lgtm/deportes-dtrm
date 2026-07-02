@@ -6,24 +6,51 @@ import { supabase } from "@/lib/supabase";
 export default function PagoEstado({
   pedidoId,
   estadoInicial,
+  total,
 }: {
   pedidoId: number;
   estadoInicial: string;
-}) {
+  total: number;
+})
+ {
   const [estado, setEstado] = useState(estadoInicial);
 
-  async function cambiarEstado(
-    nuevoEstado: string
-  ) {
-    setEstado(nuevoEstado);
+ async function cambiarEstado(
+  nuevoEstado: string
+) {
 
-    await supabase
-      .from("pedidos")
-      .update({
-        estado_pago: nuevoEstado,
-      })
-      .eq("id", pedidoId);
+  let actualizacion: any = {
+    estado_pago: nuevoEstado,
+  };
+
+  if (nuevoEstado === "Señado") {
+
+    const monto = prompt(
+      "Ingrese el monto de la seña"
+    );
+
+    if (monto) {
+
+      actualizacion.monto_pagado =
+        Number(monto);
+
+      actualizacion.sena =
+        Number(monto);
+
+      actualizacion.saldo =
+        total - Number(monto);
+
+    }
+
   }
+
+  setEstado(nuevoEstado);
+
+  await supabase
+    .from("pedidos")
+    .update(actualizacion)
+    .eq("id", pedidoId);
+}
 
   return (
     <select

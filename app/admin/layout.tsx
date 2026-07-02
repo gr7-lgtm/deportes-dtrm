@@ -79,6 +79,13 @@ export default function AdminLayout({
             📈 Mensual
           </Link>
 
+          <Link
+          href="/admin/finanzas/cobranza"
+          className="bg-gray-900 hover:bg-orange-500 px-4 py-3 rounded-lg transition"
+        >
+          💰 Cobranza
+        </Link>
+
         </nav>
 
       </aside>

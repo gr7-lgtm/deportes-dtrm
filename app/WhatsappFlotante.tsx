@@ -1,3 +1,5 @@
+import { FaWhatsapp } from "react-icons/fa";
+
 export default function WhatsappFlotante() {
   return (
     <a
@@ -12,17 +14,16 @@ export default function WhatsappFlotante() {
         hover:bg-green-600
         text-white
         rounded-full
-        w-16
-        h-16
+        w-12
+        h-12
         flex
         items-center
         justify-center
-        shadow-xl
-        text-3xl
+        shadow-2xl
         z-50
       "
     >
-      💬
+      <FaWhatsapp size={27} />
     </a>
   );
 }
