@@ -23,6 +23,10 @@ const { data: productos } = await supabase
       <div className="max-w-6xl mx-auto">
 
         <header className="bg-black text-white py-7 px-8 rounded-2xl mb-3">
+
+          <h1 className="text-red-500">
+  PRUEBA RESPONSIVE
+</h1>
           
   <div className="
   flex
