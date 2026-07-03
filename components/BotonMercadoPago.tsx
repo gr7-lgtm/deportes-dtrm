@@ -13,6 +13,13 @@ export default function BotonMercadoPago({
 }) {
   async function pagar() {
 
+    const pedidoId = localStorage.getItem("pedidoId");
+
+if (!pedidoId) {
+  alert("Primero debe realizar el pedido");
+  return;
+}
+
      console.log("CLICK MP");
     const res = await fetch("/api/mercadopago", {
       method: "POST",
@@ -20,11 +27,13 @@ export default function BotonMercadoPago({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        pedidoId,
-        titulo,
-        precio,
-        cantidad: 1,
-      }),
+  pedidoId: Number(
+    localStorage.getItem("pedidoId")
+  ),
+  titulo,
+  precio,
+  cantidad: 1,
+}),
     });
 
     const data = await res.json();

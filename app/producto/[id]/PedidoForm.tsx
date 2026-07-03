@@ -42,15 +42,26 @@ async function realizarPedido() {
 
     if (errorCliente) throw errorCliente;
 
-    const { data: pedido, error: errorPedido } = await supabase
-      .from("pedidos")
-      .insert({
-        cliente_id: cliente.id,
-      })
-      .select()
-      .single();
+    const total = precio * cantidad;
+
+const { data: pedido, error: errorPedido } =
+  await supabase
+    .from("pedidos")
+    .insert({
+      cliente_id: cliente.id,
+      total,
+      saldo: total,
+      estado_pago: "Pendiente",
+    })
+    .select()
+    .single();
 
     if (errorPedido) throw errorPedido;
+
+    localStorage.setItem(
+  "pedidoId",
+  pedido.id.toString()
+);
 
     const { error: errorItem } = await supabase
       .from("pedido_items")
